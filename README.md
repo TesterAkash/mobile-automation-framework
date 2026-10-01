@@ -46,7 +46,7 @@ Before running the tests, make sure the following are installed and configured:
 - `src/test/java` – step definitions and Cucumber tests
 - `src/test/resources/config` – platform-specific config properties
 - `apps/` – APK and IPA app files
-- `target/` – build output and test reports
+- `target/` – generated build output and test reports (ignored by Git)
 
 ---
 
@@ -61,8 +61,7 @@ Example Android settings:
 
 ```properties
 platform=android
-device.name=33555e227d29
-device.udid=33555e227d29
+device.name=Android Device
 platform.version=9
 app.path=apps/sample-app-android.apk
 appium.server.url=http://127.0.0.1:4723
@@ -71,7 +70,7 @@ autoGrantPermissions=true
 ```
 
 Update the values for your real device/emulator, especially:
-- `device.udid`
+- `device.name` and `device.udid` when multiple devices are connected
 - `platform.version`
 - `app.path`
 
