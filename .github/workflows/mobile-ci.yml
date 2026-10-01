@@ -39,10 +39,25 @@ jobs:
           arch: x86_64
           profile: Pixel 2
           script: |
+            adb wait-for-device
+            for attempt in $(seq 1 60); do
+              if [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ]; then
+                break
+              fi
+              sleep 5
+            done
+
+            if [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]; then
+              echo "Emulator did not finish booting within the timeout"
+              adb devices -l
+              exit 1
+            fi
+
+            adb devices -l
             appium --address 127.0.0.1 --port 4723 > appium.log 2>&1 &
             APPIUM_PID=$!
             trap 'kill "$APPIUM_PID" 2>/dev/null || true' EXIT
-            for attempt in $(seq 1 30); do
+            for attempt in $(seq 1 60); do
               if curl --silent --fail http://127.0.0.1:4723/status > /dev/null; then
                 break
               fi
