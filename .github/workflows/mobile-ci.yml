@@ -28,7 +28,7 @@ jobs:
 
       - name: Install Appium and Android driver
         run: |
-          npm install -g appium@2.11.4
+          npm install -g appium@3
           appium driver install uiautomator2
 
       - name: Run Android tests
